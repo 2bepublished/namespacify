@@ -1,0 +1,54 @@
+[
+    {
+        "name": "symfony/console",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "Symfony/Component/Console",
+        "time": "2012-07-14 22:13:51",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/Console",
+            "reference": "v2.1.0-BETA4"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/symfony/Console/zipball/v2.1.0-BETA4",
+            "reference": "v2.1.0-BETA4",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.1-dev"
+            }
+        },
+        "installation-source": "source",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com",
+                "homepage": null,
+                "role": null
+            },
+            {
+                "name": "Symfony Community",
+                "email": null,
+                "homepage": "http://symfony.com/contributors",
+                "role": null
+            }
+        ],
+        "description": "Symfony Console Component",
+        "homepage": "http://symfony.com",
+        "autoload": {
+            "psr-0": {
+                "Symfony\\Component\\Console": ""
+            }
+        }
+    }
+]

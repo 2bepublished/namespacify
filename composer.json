@@ -1,0 +1,30 @@
+{
+    "name": "2bepublished/namespacify",
+    "description": "Tool that takes PHP classes and adds namespaces.",
+    "version": "0.0.1-dev",
+    "type": "library",
+    "keywords": ["namespace"],
+    "homepage": "https://github.com/2bepublished/namespacify",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Florian Eckerstorfer",
+            "email": "florian@theroadtojoy.at",
+            "homepage": "http://florianeckerstorfer.com",
+            "role": "Developer"
+        },
+        {
+            "name": "2bePUBLISHED",
+            "homepage": "http://www.2bepublished.at",
+            "role": "Sponsor"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/console": "dev-master"
+    },
+    "autoload": {
+        "psr-0": { "Pub\\Namespacify": "src/" }
+    },
+    "target-dir": "Pub/Namespacify"
+}

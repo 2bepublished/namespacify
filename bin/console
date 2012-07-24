@@ -1,0 +1,32 @@
+<?php
+
+/**
+ * Namespacify Command Line Tool
+ *
+ * Adds namespaces to all PHP classes of a given directory.
+ *
+ * PHP Version 5.3.10
+ *
+ * @category  console
+ * @package   namespacify
+ * @author    Florian Eckerstorfer <florian@theroadtojoy.at>
+ * @license   http://opensource.org/licenses/MIT The MIT License
+ * @copyright 2012 2bePUBLISHED Internet Services Austria GmbH
+ */
+
+define('NAMESPACIFY_VERSION', '0.0.1-dev');
+
+//
+// AUTOLOAD
+//
+require_once __DIR__.'/../vendor/autoload.php';
+
+use Pub\Namespacify\Application;
+use Pub\Namespacify\Command\NamespacifyCommand;
+
+$console = new Application("Namespacify", NAMESPACIFY_VERSION);
+
+// Add namespacify command.
+$console->add(new NamespacifyCommand());
+
+$console->run();
