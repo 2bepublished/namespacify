@@ -35,6 +35,7 @@ class Indexer implements IndexerInterface
     /** @var \Symonfy\Component\Finder\Finder */
     private $finder;
 
+    /** @var string Pattern to match class name */
     private $classMatchPattern = '/class ([A-Z][a-zA-Z0-9_]+)/';
 
     /**

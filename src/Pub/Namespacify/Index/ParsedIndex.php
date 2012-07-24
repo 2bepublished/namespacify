@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Index
+ * Parsedndex
  *
  * PHP Version 5.3.10
  *
@@ -15,7 +15,7 @@
 namespace Pub\Namespacify\Index;
 
 /**
- * Index
+ * Parsedndex
  *
  * @category  index
  * @package   namespacify
@@ -23,23 +23,22 @@ namespace Pub\Namespacify\Index;
  * @license   http://opensource.org/licenses/MIT The MIT License
  * @copyright 2012 2bePUBLISHED Internet Services Austria GmbH
  */
-class Index implements IndexInterface
+class ParsedIndex implements IndexInterface
 {
-    /** @var array */
+    /** @var array The index */
     protected $index = array();
-
-    public function __construct()
-    {
-    }
 
     /** {@inheritDoc} */
     public function add(array $item)
     {
-        if (!isset($item['file'])) {
-            throw new \InvalidArgumentException('Missing "file" element.');
+        if (!isset($item['class'])) {
+            throw new \InvalidArgumentException('Missing "class" element.');
         }
-        if (!isset($item['classes'])) {
-            throw new \InvalidArgumentException('Missing "classes" element.');
+        if (!isset($item['namespace'])) {
+            throw new \InvalidArgumentException('Missing "namespace" element.');
+        }
+        if (!isset($item['code'])) {
+            throw new \InvalidArgumentException('Missing "code" element.');
         }
 
         $this->index[] = $item;

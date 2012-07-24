@@ -69,8 +69,13 @@ class NamespacifyCommand extends Command implements ContainerAwareInterface
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $dir = $input->getArgument('dir');
+
         $indexer = $this->container->get('indexer');
         $index = $indexer->index($dir);
+
+        $parser = $this->container->get('parser');
+        $parsedIndex = $parser->parse($index);
+
         $output->writeln("Directory: " . $dir);
     }
 }
