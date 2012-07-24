@@ -1,7 +1,8 @@
 parameters:
-    index.class:    Pub\Namespacify\Index\Index
-    indexer.class:  Pub\Namespacify\Indexer\Indexer
-    finder.class:   Symfony\Component\Finder\Finder
+    finder.class:    Symfony\Component\Finder\Finder
+    index.class:     Pub\Namespacify\Index\Index
+    indexer.class:   Pub\Namespacify\Indexer\Indexer
+    parser.class:    Pub\Namespacify\Parser\SimpleParser
 
 services:
     finder:
@@ -13,3 +14,5 @@ services:
         calls:
             - [ setIndex, [ @index ] ]
             - [ setFinder, [ @finder ] ]
+    parser:
+        class:      %parser.class%
