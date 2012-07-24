@@ -64,9 +64,7 @@ class Indexer implements IndexerInterface
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritdoc} */
     public function index($directory)
     {
         $iterator = $this->finder

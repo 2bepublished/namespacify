@@ -37,7 +37,7 @@ interface IndexInterface
     /**
      * Returns if the item with the given key exists in the index.
      *
-     * @param integer $key The key
+     * @param mixed $key The key
      *
      * @return boolean TRUE if the item exists, FALSE if not
      */
@@ -46,7 +46,7 @@ interface IndexInterface
     /**
      * Returns the item with the given key.
      *
-     * @param integer $key The key
+     * @param mixed $key The key
      *
      * @return array The item
      */
@@ -55,7 +55,7 @@ interface IndexInterface
     /**
      * Removes the item with the given key from the index.
      *
-     * @param integer $key The key
+     * @param mixed $key The key
      *
      * @return \Pub\Namespacify\Index\IndexInterface self
      */

@@ -22,8 +22,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-use Pub\Namespacify\Indexer\Indexer;
-
 /**
  * NamespacifyCommand
  *
@@ -56,10 +54,9 @@ class NamespacifyCommand extends Command implements ContainerAwareInterface
     {
         $this
             ->setName('namespacify')
-            ->setDescription(
-                'Adds namespaces to the classes in the given directory.'
-            )
+            ->setDescription('Adds namespaces to the classes in the given directory.')
             ->addArgument('dir', InputArgument::REQUIRED, 'Directory name')
+            ->addArgument('outputDir', InputArgument::REQUIRED, 'Output directory name')
         ;
     }
 
@@ -69,12 +66,20 @@ class NamespacifyCommand extends Command implements ContainerAwareInterface
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $dir = $input->getArgument('dir');
+        $outputDir = $input->getArgument('outputDir');
 
         $indexer = $this->container->get('indexer');
         $index = $indexer->index($dir);
 
         $parser = $this->container->get('parser');
         $parsedIndex = $parser->parse($index);
+
+        $generator = $this->container->get('generator');
+        $generator->setLoggingCallback(function ($namespace, $class, $file) use ($output)
+        {
+            $output->writeln(sprintf('%s\\%s --> %s', $namespace, $class, $file ));
+        });
+        $generator->generate($parsedIndex, $outputDir);
 
         $output->writeln("Directory: " . $dir);
     }

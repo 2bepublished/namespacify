@@ -28,10 +28,6 @@ class Index implements IndexInterface
     /** @var array */
     protected $index = array();
 
-    public function __construct()
-    {
-    }
-
     /** {@inheritDoc} */
     public function add(array $item)
     {
@@ -42,7 +38,7 @@ class Index implements IndexInterface
             throw new \InvalidArgumentException('Missing "classes" element.');
         }
 
-        $this->index[] = $item;
+        $this->index[str_replace('/', '_', $item['file'])] = $item;
 
         return $this;
     }

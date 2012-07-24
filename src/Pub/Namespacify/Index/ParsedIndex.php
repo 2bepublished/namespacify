@@ -41,7 +41,7 @@ class ParsedIndex implements IndexInterface
             throw new \InvalidArgumentException('Missing "code" element.');
         }
 
-        $this->index[] = $item;
+        $this->index[$item['class']] = $item;
 
         return $this;
     }
