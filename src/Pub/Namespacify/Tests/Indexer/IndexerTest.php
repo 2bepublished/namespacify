@@ -4,7 +4,6 @@ namespace Pub\Namespacify\Tests\Indexer;
 
 use Pub\Namespacify\Indexer\Indexer as BaseIndexer;
 use Pub\Namespacify\Index\Index;
-use Symfony\Component\Finder\Finder as BaseFinder;
 use Symfony\Component\Finder\SplFileInfo as BaseSplFileInfo;
 
 class IndexerTest extends \PHPUnit_Framework_TestCase

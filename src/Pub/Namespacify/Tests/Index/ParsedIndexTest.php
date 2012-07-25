@@ -13,7 +13,7 @@ class ParsedIndexTest extends \PHPUnit_Framework_TestCase
     {
         $index = new ParsedIndex();
         $index->add(array('class' => 'World', 'namespace' => 'Hello', 'code' => 'class World { }'));
-        $this->assertTrue($index->has('World'), '->add() adds a new item to the parsed index.');
+        $this->assertTrue($index->has('Hello_World'), '->add() adds a new item to the parsed index.');
     }
 
     /**
@@ -78,7 +78,7 @@ class ParsedIndexTest extends \PHPUnit_Framework_TestCase
     {
         $index = new ParsedIndex();
         $index->add(array('class' => 'World', 'namespace' => 'Hello', 'code' => 'class World { }'));
-        $this->assertTrue($index->has('World'), '->has() returns TRUE if a parsed item does exist.');
+        $this->assertTrue($index->has('Hello_World'), '->has() returns TRUE if a parsed item does exist.');
         $this->assertFalse($index->has('Invalid'), '->has() returns FALSE if a parsed item does not exist.');
     }
 
@@ -91,7 +91,7 @@ class ParsedIndexTest extends \PHPUnit_Framework_TestCase
         $index->add(array('class' => 'World', 'namespace' => 'Hello', 'code' => 'class World { }'));
         $this->assertEquals(
             array('class' => 'World', 'namespace' => 'Hello', 'code' => 'class World { }'),
-            $index->get('World'),
+            $index->get('Hello_World'),
             '->get() returns a parsed item.'
         );
     }
@@ -103,8 +103,8 @@ class ParsedIndexTest extends \PHPUnit_Framework_TestCase
     {
         $index = new ParsedIndex();
         $index->add(array('class' => 'World', 'namespace' => 'Hello', 'code' => 'class World { }'));
-        $index->remove('World');
-        $this->assertFalse($index->has('World'), '->remove() removes an existing parsed item.');
+        $index->remove('Hello_World');
+        $this->assertFalse($index->has('Hello_World'), '->remove() removes an existing parsed item.');
     }
 
     /**
@@ -117,7 +117,11 @@ class ParsedIndexTest extends \PHPUnit_Framework_TestCase
         $index->add(array('class' => 'Moon', 'namespace' => 'Hello', 'code' => 'class Moon { }'));
         $items = $index->getAll();
         $this->assertCount(2, $items, '->getAll() returns all items from the parsed index.');
-        $this->assertEquals('World', $items['World']['class'], '->getAll() returns all items from the parsed index.');
-        $this->assertEquals('Moon', $items['Moon']['class'], '->getAll() returns all items from the parsed index.');
+        $this->assertEquals('World', $items['Hello_World']['class'],
+            '->getAll() returns all items from the parsed index.'
+        );
+        $this->assertEquals('Moon', $items['Hello_Moon']['class'],
+            '->getAll() returns all items from the parsed index.'
+        );
     }
 }

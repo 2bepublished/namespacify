@@ -41,7 +41,9 @@ class ParsedIndex implements IndexInterface
             throw new \InvalidArgumentException('Missing "code" element.');
         }
 
-        $this->index[$item['class']] = $item;
+        $key = str_replace('\\', '_', $item['namespace'] . '\\' . $item['class']);
+
+        $this->index[$key] = $item;
 
         return $this;
     }
