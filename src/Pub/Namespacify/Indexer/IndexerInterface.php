@@ -3,8 +3,6 @@
 /**
  * IndexerInterface
  *
- * PHP Version 5.3.10
- *
  * @category  indexer
  * @package   namespacify
  * @author    Florian Eckerstorfer <florian@theroadtojoy.at>

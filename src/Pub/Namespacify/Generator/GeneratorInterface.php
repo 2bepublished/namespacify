@@ -1,9 +1,7 @@
-<?php // @codeCoverageIgnore
+<?php
 
 /**
  * GeneratorInterface
- *
- * PHP Version 5.3.10
  *
  * @category  generator
  * @package   namespacify

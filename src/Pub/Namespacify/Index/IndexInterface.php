@@ -3,8 +3,6 @@
 /**
  * IndexInterface
  *
- * PHP Version 5.3.10
- *
  * @category  index
  * @package   namespacify
  * @author    Florian Eckerstorfer <florian@theroadtojoy.at>
@@ -25,7 +23,6 @@ namespace Pub\Namespacify\Index;
  * @license   http://opensource.org/licenses/MIT The MIT License
  * @copyright 2012 2bePUBLISHED Internet Services Austria GmbH
  */
- // @codeCoverageIgnore
 interface IndexInterface
 {
     /**

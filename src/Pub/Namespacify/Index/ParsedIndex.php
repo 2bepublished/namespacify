@@ -3,8 +3,6 @@
 /**
  * Parsedndex
  *
- * PHP Version 5.3.10
- *
  * @category  index
  * @package   namespacify
  * @author    Florian Eckerstorfer <florian@theroadtojoy.at>
