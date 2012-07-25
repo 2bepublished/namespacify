@@ -10,7 +10,7 @@
  * @copyright 2012 2bePUBLISHED Internet Services Austria GmbH
  */
 
-namespace Pub\Namespecify\Transformer;
+namespace Pub\Namespacify\Transformer;
 
 /**
  * TransformerChain
