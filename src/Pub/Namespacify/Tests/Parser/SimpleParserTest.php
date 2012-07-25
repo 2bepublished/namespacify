@@ -28,15 +28,15 @@ class SimpleParserTest extends \PHPUnit_Framework_TestCase
         $parser = new SimpleParser();
         $items = $parser->parse($index)->getAll();
         $this->assertCount(3, $items, '->parse() parses all classes in the index and extracts the code.');
-        $this->assertEquals('World', $items['Hello_World_World']['class']);
-        $this->assertEquals('Hello\\World', $items['Hello_World_World']['namespace']);
-        $this->assertEquals("class World {\n}", $items['Hello_World_World']['code']);
-        $this->assertEquals('Moon', $items['Hello_Moon_Moon']['class']);
-        $this->assertEquals('Hello\\Moon', $items['Hello_Moon_Moon']['namespace']);
-        $this->assertEquals("class Moon {\n}", $items['Hello_Moon_Moon']['code']);
-        $this->assertEquals('Mars', $items['Hello_Moon_Mars']['class']);
-        $this->assertEquals('Hello\\Moon', $items['Hello_Moon_Mars']['namespace']);
-        $this->assertEquals("class Mars {\n}", $items['Hello_Moon_Mars']['code']);
+        $this->assertEquals('World', $items['World']['class']);
+        $this->assertEquals('Hello\\World', $items['World']['namespace']);
+        $this->assertEquals("class World {\n}", $items['World']['code']);
+        $this->assertEquals('Moon', $items['Moon']['class']);
+        $this->assertEquals('Hello\\Moon', $items['Moon']['namespace']);
+        $this->assertEquals("class Moon {\n}", $items['Moon']['code']);
+        $this->assertEquals('Mars', $items['Mars']['class']);
+        $this->assertEquals('Hello\\Moon', $items['Mars']['namespace']);
+        $this->assertEquals("class Mars {\n}", $items['Mars']['code']);
     }
 }
 
