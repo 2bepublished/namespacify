@@ -94,10 +94,26 @@ class ParsedIndexTest extends \PHPUnit_Framework_TestCase
             $index->get('World'),
             '->get() returns a parsed item.'
         );
+
+        try {
+            $index->get('invalid');
+            $this->fail('->get() throws an \InvalidArgumentException if the item does not exist in the index.');
+        } catch (\Exception $e) {
+            $this->assertInstanceOf(
+                '\InvalidArgumentException',
+                $e,
+                '->get() thrown an \InvalidArgumentException if the item does not exist in the index.'
+            );
+            $this->assertEquals(
+                'Item with key "invalid" does not exist.',
+                $e->getMessage(),
+                '->get() thrown an \InvalidArgumentException if the item does not exist in the index.'
+            );
+        }
     }
 
     /**
-     * @covers Pub\Namespacify\Index\ParsedIndex::get
+     * @covers Pub\Namespacify\Index\ParsedIndex::remove
      */
     public function testRemove()
     {
@@ -105,6 +121,22 @@ class ParsedIndexTest extends \PHPUnit_Framework_TestCase
         $index->add(array('class' => 'World', 'namespace' => 'Hello', 'code' => 'class World { }'));
         $index->remove('World');
         $this->assertFalse($index->has('World'), '->remove() removes an existing parsed item.');
+
+        try {
+            $index->remove('invalid');
+            $this->fail('->remove() throws an \InvalidArgumentException if the item does not exist in the index.');
+        } catch (\Exception $e) {
+            $this->assertInstanceOf(
+                '\InvalidArgumentException',
+                $e,
+                '->remove() throws an \InvalidArgumentException if the item does not exist in the index.'
+            );
+            $this->assertEquals(
+                'Item with key "invalid" does not exist.',
+                $e->getMessage(),
+                '->remove() throws an \InvalidArgumentException if the item does not exist in the index.'
+            );
+        }
     }
 
     /**

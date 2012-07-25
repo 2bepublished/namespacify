@@ -6,9 +6,25 @@ use Symfony\Component\Filesystem\Filesystem as BaseFilesystem;
 
 use Pub\Namespacify\Generator\Psr0Generator;
 use Pub\Namespacify\Index\ParsedIndex;
+use Pub\Namespacify\Transformer\TransformerChain;
 
 class Psr0GeneratorTest extends \PHPUnit_Framework_TestCase
 {
+    public $loggerCalled;
+
+    public function setUp()
+    {
+        $this->loggerCalled = false;
+    }
+
+    /**
+     * @covers Pub\Namespacify\Generator\Psr0Generator::generate
+     * @covers Pub\Namespacify\Generator\Psr0Generator::generateUseStatements
+     * @covers Pub\Namespacify\Generator\Psr0Generator::setWriter
+     * @covers Pub\Namespacify\Generator\Psr0Generator::getWriter
+     * @covers Pub\Namespacify\Generator\Psr0Generator::setLoggingCallback
+     * @covers Pub\Namespacify\Generator\Psr0Generator::setTransformer
+     */
     public function testGenerate()
     {
         $index = new ParsedIndex();
@@ -18,8 +34,14 @@ class Psr0GeneratorTest extends \PHPUnit_Framework_TestCase
             'namespace' => 'Hello\\Moon',
             'code' => "class Moon \n{function a(){new World();}\n}"
         ));
+        $index->add(array(
+            'class'     => 'Mars',
+            'namespace' => 'Hello\\Moon',
+            'code'      => "class Mars \n{function a(){throw new Exception();}\n}"
+        ));
         $generator = new Psr0Generator();
         $generator->setFilesystem(new Filesystem());
+        $generator->setTransformer(new TransformerChain());
 
         $that = $this;
         $generator->setWriter(function ($file, $code) use ($that) {
@@ -33,9 +55,37 @@ class Psr0GeneratorTest extends \PHPUnit_Framework_TestCase
                         "class Moon \n{function a(){new World();}\n}\n",
                     $code
                 );
+            } elseif ('Mars.php' === substr($file, -8)) {
+                $that->assertEquals('./generated/Hello/Moon/Mars.php', $file);
+                $that->assertEquals(
+                    "<?php\n\nnamespace Hello\\Moon;\n\nuse \\Exception;\n\n" .
+                        "class Mars \n{function a(){throw new Exception();}\n}\n",
+                    $code
+                );
             }
         });
+        $generator->setLoggingCallback(function ($namespace, $class, $file) use ($that) {
+            $that->loggerCalled = true;
+        });
         $generator->generate($index, './generated');
+
+        if (!$this->loggerCalled) {
+            $this->fail('->generate() calls logging callback.');
+        } else {
+            $this->assertTrue(true, '->generate() calls logging callback.');
+        }
+    }
+
+    /**
+     * @covers Pub\Namespacify\Generator\Psr0Generator::setFilesystem
+     * @covers Pub\Namespacify\Generator\Psr0Generator::getFilesystem
+     */
+    public function testGetSetFilesystem()
+    {
+        $filesystem = new BaseFilesystem();
+        $generator = new Psr0Generator();
+        $generator->setFilesystem($filesystem);
+        $this->assertEquals($filesystem, $generator->getFilesystem(), '->setFilesystem() sets the Filesystem.');
     }
 }
 

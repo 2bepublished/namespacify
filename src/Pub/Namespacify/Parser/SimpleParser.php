@@ -32,7 +32,7 @@ class SimpleParser implements ParserInterface
     protected $classCodePattern = '/^(class (.*)$(.*)^})/msU';
 
     /** @var string Pattern to match name of class */
-    protected $classNamePattern = '/class (.*)\s/sU';
+    protected $classNamePattern = '/class (.*)(\s|\{)/sU';
 
     /** {@inheritDoc} */
     public function parse(IndexInterface $index)
@@ -75,7 +75,8 @@ class SimpleParser implements ParserInterface
      */
     protected function parseClassName($code)
     {
-        if (preg_match($this->classNamePattern, $code, $matches)) {
+        preg_match($this->classNamePattern, $code, $matches);
+        if (isset($matches[1]) && $matches[1]) {
             return $matches[1];
         }
         return false;

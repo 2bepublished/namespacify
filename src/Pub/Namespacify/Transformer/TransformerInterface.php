@@ -21,6 +21,7 @@ namespace Pub\Namespacify\Transformer;
  * @license   http://opensource.org/licenses/MIT The MIT License
  * @copyright 2012 2bePUBLISHED Internet Services Austria GmbH
  */
+ // @codeCoverageIgnore
 interface TransformerInterface
 {
     /**

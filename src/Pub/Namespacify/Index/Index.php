@@ -54,7 +54,7 @@ class Index implements IndexInterface
     {
         if (!$this->has($key)) {
             throw new \InvalidArgumentException(
-                sprintf('Item with key "%d" does not exist.', $key)
+                sprintf('Item with key "%s" does not exist.', $key)
             );
         }
 
@@ -66,7 +66,7 @@ class Index implements IndexInterface
     {
         if (!$this->has($key)) {
             throw new \InvalidArgumentException(
-                sprintf('Item with key "%d" does not exist.', $key)
+                sprintf('Item with key "%s" does not exist.', $key)
             );
         }
 

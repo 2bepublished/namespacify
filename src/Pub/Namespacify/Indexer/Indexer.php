@@ -52,6 +52,16 @@ class Indexer implements IndexerInterface
     }
 
     /**
+     * Returns the index.
+     *
+     * @return Pub\Namespacify\Index\Index The index
+     */
+    public function getIndex()
+    {
+        return $this->index;
+    }
+
+    /**
      * Sets the finder.
      *
      * @param \Symonfy\Component\Finder\Finder $finder The finder
@@ -62,6 +72,16 @@ class Indexer implements IndexerInterface
     {
         $this->finder = $finder;
         return $this;
+    }
+
+    /**
+     * Returns the finder.
+     *
+     * @return Symfony\Component\Finder\Finder The finder
+     */
+    public function getFinder()
+    {
+        return $this->finder;
     }
 
     /** {@inheritdoc} */
@@ -86,6 +106,8 @@ class Indexer implements IndexerInterface
      * @param string $directory The directory
      *
      * @return \Iterator An iterator
+     *
+     * @codeCoverageIgnore
      */
     protected function getFileIterator($directory)
     {

@@ -15,6 +15,7 @@ namespace Pub\Namespacify\Generator;
 use Symfony\Component\Filesystem\Filesystem;
 
 use Pub\Namespacify\Index\ParsedIndex;
+use Pub\Namespacify\Transformer\TransformerInterface;
 
 /**
  * Psr0Generator
@@ -27,13 +28,13 @@ use Pub\Namespacify\Index\ParsedIndex;
  */
 class Psr0Generator implements GeneratorInterface
 {
-    /** @var \Symfony\Component\Filesystem\Filesystem */
+    /** @var Symfony\Component\Filesystem\Filesystem */
     protected $filesystem;
 
     /** @var callback */
     protected $loggingCallback;
 
-    /** @var \Pub\Namespacify\Transformer\TransformerInterface */
+    /** @var Pub\Namespacify\Transformer\TransformerInterface */
     protected $transformer;
 
     /** @var \Closure */
@@ -42,14 +43,24 @@ class Psr0Generator implements GeneratorInterface
     /**
      * Sets the file system.
      *
-     * @param \Symfony\Component\Filesystem\Filesystem $filesystem Filesystem
+     * @param Symfony\Component\Filesystem\Filesystem $filesystem Filesystem
      *
-     * @return \Pub\Namespacify\Generator\Psr0Generator
+     * @return Pub\Namespacify\Generator\Psr0Generator
      */
     public function setFilesystem(Filesystem $filesystem)
     {
         $this->filesystem = $filesystem;
         return $this;
+    }
+
+    /**
+     * Returns the Filesystem.
+     *
+     * @return Symfony\Component\Filesystem\Filesystem The Filesystem
+     */
+    public function getFilesystem()
+    {
+        return $this->filesystem;
     }
 
     /**
@@ -88,9 +99,11 @@ class Psr0Generator implements GeneratorInterface
     public function getWriter()
     {
         if (!$this->writer) {
+            // @codeCoverageIgnoreStart
             return function ($file, $code) {
                 file_put_contents($file, $code);
             };
+            // @codeCoverageIgnoreEnd
         }
         return $this->writer;
     }

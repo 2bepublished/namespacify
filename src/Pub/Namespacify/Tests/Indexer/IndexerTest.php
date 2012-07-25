@@ -4,6 +4,7 @@ namespace Pub\Namespacify\Tests\Indexer;
 
 use Pub\Namespacify\Indexer\Indexer as BaseIndexer;
 use Pub\Namespacify\Index\Index;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo as BaseSplFileInfo;
 
 class IndexerTest extends \PHPUnit_Framework_TestCase
@@ -21,6 +22,30 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(2, $items, '->index() indexes all matching files.');
         $this->assertContains('World', $items['Hello_World.php']['classes'], '->index() indexes all matching files.');
         $this->assertContains('Moon', $items['Hello_Moon.php']['classes'], '->index() indexes all matching files.');
+    }
+
+    /**
+     * @covers Pub\Namespacify\Indexer\Indexer::setIndex
+     * @covers Pub\Namespacify\Indexer\Indexer::getIndex
+     */
+    public function testGetSetIndex()
+    {
+        $indexer = new Indexer();
+        $index = new Index();
+        $indexer->setIndex($index);
+        $this->assertEquals($index, $indexer->getIndex(), '->setIndex() sets the index.');
+    }
+
+    /**
+     * @covers Pub\Namespacify\Indexer\Indexer::setFinder
+     * @covers Pub\Namespacify\Indexer\Indexer::getFinder
+     */
+    public function testGetSetFinder()
+    {
+        $indexer = new Indexer();
+        $finder = new Finder();
+        $indexer->setFinder($finder);
+        $this->assertEquals($finder, $indexer->getFinder(), '->setFinder() sets the finder.');
     }
 }
 

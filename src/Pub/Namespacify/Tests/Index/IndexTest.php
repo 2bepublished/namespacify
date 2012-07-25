@@ -16,7 +16,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($index->has('Hello_World.php'), '->add() adds a new item to the index.');
     }
 
-    /** @covers Pub\Namespacify\Index\Index::add */
+    /**
+     * @covers Pub\Namespacify\Index\Index::add
+     */
     public function testAddThrowsException()
     {
         $index = new Index();
@@ -76,10 +78,26 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             $index->get('Hello.php'),
             '->get() returns an item.'
         );
+
+        try {
+            $index->get('invalid');
+            $this->fail('->get() thrown an \InvalidArgumentException since the item does not exist.');
+        } catch (\Exception $e) {
+            $this->assertInstanceOf(
+                '\InvalidArgumentException',
+                $e,
+                '->get() thrown an \InvalidArgumentException since the item does not exist.'
+            );
+            $this->assertEquals(
+                'Item with key "invalid" does not exist.',
+                $e->getMessage(),
+                '->get() thrown an \InvalidArgumentException since the item does not exist.'
+            );
+        }
     }
 
     /**
-     * @covers Pub\Namespacify\Index\Index::get
+     * @covers Pub\Namespacify\Index\Index::remove
      */
     public function testRemove()
     {
@@ -87,6 +105,22 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         $index->add(array('file' => 'Hello.php', 'classes' => array('Hello')));
         $index->remove('Hello.php');
         $this->assertFalse($index->has('Hello.php'), '->remove() removes an existing item.');
+
+        try {
+            $index->remove('invalid');
+            $this->fail('->remove() thrown an \InvalidArgumentException since the item does not exist.');
+        } catch (\Exception $e) {
+            $this->assertInstanceOf(
+                '\InvalidArgumentException',
+                $e,
+                '->remove() thrown an \InvalidArgumentException since the item does not exist.'
+            );
+            $this->assertEquals(
+                'Item with key "invalid" does not exist.',
+                $e->getMessage(),
+                '->remove() thrown an \InvalidArgumentException since the item does not exist.'
+            );
+        }
     }
 
     /**

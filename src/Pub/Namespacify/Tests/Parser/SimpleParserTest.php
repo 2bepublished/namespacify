@@ -11,6 +11,7 @@ class SimpleParserTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers Pub\Namespacify\Parser\SimpleParser::parse
+     * @covers Pub\Namespacify\Parser\SimpleParser::parseClassName
      */
     public function testParse()
     {
@@ -23,6 +24,10 @@ class SimpleParserTest extends \PHPUnit_Framework_TestCase
             ->add(array(
                 'file'      => new SplFileInfo('Hello/Moon.php', 'Hello', 'Hello/Moon.php'),
                 'classes'   => array('Moon', 'Mars')
+            ))
+            ->add(array(
+                'file'      => new SplFileInfo('Hello/Invalid.php', 'Hello', 'Hello/Invalid.php'),
+                'classes'   => array()
             ))
         ;
         $parser = new SimpleParser();
@@ -49,6 +54,8 @@ class SplFileInfo extends BaseSplFileInfo
                 return "<?php\n\nclass World {\n}\n";
             case 'Hello/Moon.php':
                 return "<?php\n\nclass Moon {\n}\n\nclass Mars {\n}\n";
+            case 'Hello/Invalid.php':
+                return "<?php\n\nclass {\n}";
         }
     }
 }

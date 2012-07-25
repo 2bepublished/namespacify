@@ -25,6 +25,7 @@ use Pub\Namespacify\Index\IndexInterface;
  * @license   http://opensource.org/licenses/MIT The MIT License
  * @copyright 2012 2bePUBLISHED Internet Services Austria GmbH
  */
+// @codeCoverageIgnore
 interface ParserInterface
 {
     /**
