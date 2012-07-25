@@ -36,6 +36,9 @@ class Psr0Generator implements GeneratorInterface
     /** @var \Pub\Namespacify\Transformer\TransformerInterface */
     protected $transformer;
 
+    /** @var \Closure */
+    protected $writer;
+
     /**
      * Sets the file system.
      *
@@ -52,14 +55,44 @@ class Psr0Generator implements GeneratorInterface
     /**
      * Sets the logging callback function.
      *
-     * @param callback $loggingCallback The logging callback
+     * @param \Closure $loggingCallback The logging callback
      *
      * @return \Pub\Namespacify\Generator\Psr0Generator
      */
-    public function setLoggingCallback($loggingCallback)
+    public function setLoggingCallback(\Closure $loggingCallback)
     {
         $this->loggingCallback = $loggingCallback;
         return $this;
+    }
+
+    /**
+     * Sets the writer.
+     *
+     * Writer is the function that writes to the file system.
+     *
+     * @param \Closure $writer The writer closure
+     *
+     * @return \Pub\Namespacify\Generator\Psr0Generator
+     */
+    public function setWriter(\Closure $writer)
+    {
+        $this->writer = $writer;
+        return $this;
+    }
+
+    /**
+     * Returns the writer. If no writer is specified, returns a default writer.
+     *
+     * @return \Closure The writer clojure
+     */
+    public function getWriter()
+    {
+        if (!$this->writer) {
+            return function ($file, $code) {
+                file_put_contents($file, $code);
+            };
+        }
+        return $this->writer;
     }
 
     /**
@@ -98,10 +131,12 @@ class Psr0Generator implements GeneratorInterface
             $dir = $outputDir . '/' . str_replace('\\', '/', $class['namespace']);
             $this->filesystem->mkdir($dir);
             $file = $dir . '/' . $class['class'] . '.php';
-            file_put_contents($file, $class['code']);
+            call_user_func($this->getWriter(), $file, $class['code']);
 
             // Loggging
-            call_user_func($this->loggingCallback, $class['namespace'], $class['class'], $file);
+            if ($this->loggingCallback) {
+                call_user_func($this->loggingCallback, $class['namespace'], $class['class'], $file);
+            }
         }
 
         return $this;
