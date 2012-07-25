@@ -26,8 +26,7 @@ class CamelCaseTransformer implements TransformerInterface
     /** {@inheritDoc} */
     public function transform($value)
     {
-        $value['class']     = $this->underscoreToCamelCase($value['class']);
-        $value['namespace'] = $this->underscoreToCamelCase($value['namespace']);
+        $value = $this->underscoreToCamelCase($value);
         return $value;
     }
 
