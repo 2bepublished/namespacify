@@ -67,12 +67,7 @@ class Indexer implements IndexerInterface
     /** {@inheritdoc} */
     public function index($directory)
     {
-        $iterator = $this->finder
-            ->files()
-            ->name('*.php')
-            ->depth('> 0')
-            ->in($directory)
-        ;
+        $iterator = $this->getFileIterator($directory);
         foreach ($iterator as $file) {
             $content = $file->getContents();
             if (preg_match_all($this->classMatchPattern, $content, $matches)) {
@@ -83,5 +78,22 @@ class Indexer implements IndexerInterface
             }
         }
         return $this->index;
+    }
+
+    /**
+     * Returns an iterator that points to all files that should be added to the index.
+     *
+     * @param string $directory The directory
+     *
+     * @return \Iterator An iterator
+     */
+    protected function getFileIterator($directory)
+    {
+        return $this->finder
+            ->files()
+            ->name('*.php')
+            ->depth('> 0')
+            ->in($directory)
+        ;
     }
 }
