@@ -56,7 +56,7 @@ class Psr0GeneratorTest extends \PHPUnit_Framework_TestCase
         $index->add(array(
             'class'     => 'Mars',
             'namespace' => 'Hello\\Moon',
-            'code'      => "class Mars \n{function a(){throw new Exception();}\n}"
+            'code'      => "class Mars \n{function a(World \$world){throw new Exception();}\n}"
         ));
         $index->add(array(
             'class'     => 'Venus',
@@ -82,8 +82,9 @@ class Psr0GeneratorTest extends \PHPUnit_Framework_TestCase
             } elseif ('Mars.php' === substr($file, -8)) {
                 $that->assertEquals('./generated/Test/Hello/Moon/Mars.php', $file);
                 $that->assertEquals(
-                    "<?php\n\nnamespace Test\\Hello\\Moon;\n\nuse \\Exception;\n\n" .
-                        "class Mars \n{function a(){throw new Exception();}\n}\n",
+                    "<?php\n\nnamespace Test\\Hello\\Moon;\n\nuse \\Exception as Exception;\n" .
+                        "use Test\\Hello\\World\\World;\n\n" .
+                        "class Mars \n{function a(World \$world){throw new Exception();}\n}\n",
                     $code
                 );
             } elseif ('Venus.php' === substr($file, -9)) {

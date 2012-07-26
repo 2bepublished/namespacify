@@ -112,7 +112,7 @@ class Indexer extends BaseIndexer
         $this->files = $files;
     }
 
-    protected function getFileIterator($directory)
+    protected function getFileIterator($directory, $exclude = null)
     {
         return new \ArrayIterator($this->files);
     }
