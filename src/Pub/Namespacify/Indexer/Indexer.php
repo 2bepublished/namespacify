@@ -14,6 +14,7 @@ namespace Pub\Namespacify\Indexer;
 
 use Symfony\Component\Finder\Finder;
 
+use Pub\Namespacify\Exception\NamespaceExistsException;
 use Pub\Namespacify\Index\IndexInterface;
 
 /**
@@ -35,6 +36,9 @@ class Indexer implements IndexerInterface
 
     /** @var string Pattern to match class name */
     private $classMatchPattern = '/class ([A-Z][a-zA-Z0-9_]+)/';
+
+    /** @var string Pattern to match namespaces */
+    private $namespaceMatchPattern = '/^namespace\s+([a-zA-Z0-9_\\\\]+)\s*;$/m';
 
     /**
      * Sets the indexer.
@@ -88,6 +92,13 @@ class Indexer implements IndexerInterface
         $iterator = $this->getFileIterator($directory);
         foreach ($iterator as $file) {
             $content = $file->getContents();
+            if (preg_match($this->namespaceMatchPattern, $content, $matches)) {
+                throw new NamespaceExistsException(sprintf(
+                    'Found namespace "%s" in file "%s"',
+                    isset($matches[1]) ? $matches[1] : '[UNKOWN]',
+                    $file->getRelativePathName()
+                ));
+            }
             if (preg_match_all($this->classMatchPattern, $content, $matches)) {
                 $this->index->add(array(
                     'file'      => $file,

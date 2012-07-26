@@ -30,6 +30,8 @@ interface IndexerInterface
      * @param string $directory The directory to index
      *
      * @return Pub\Namespacify\Index\IndexInterface The index
+     *
+     * @throws Pub\Namespacify\Exception\NamespaceFoundException when a namespace statement is found in class file.
      */
     public function index($directory);
 }

@@ -16,12 +16,45 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
     {
         $indexer = new Indexer();
         $indexer->setIndex(new Index());
+        $indexer->setFiles(array(
+            new SplFileInfo('Hello/World.php', 'Hello', 'Hello/World.php'),
+            new SplFileInfo('Hello/Moon.php', 'Hello', 'Hello/Moon.php'),
+            new SplFileInfo('Hello/Nothing.php', 'Hello', 'Hello/Nothing.php')
+        ));
 
         $index = $indexer->index('Hello');
         $items = $index->getAll();
         $this->assertCount(2, $items, '->index() indexes all matching files.');
         $this->assertContains('World', $items['Hello_World.php']['classes'], '->index() indexes all matching files.');
         $this->assertContains('Moon', $items['Hello_Moon.php']['classes'], '->index() indexes all matching files.');
+    }
+
+    /**
+     * @covers Pub\Namespacify\Indexer\Indexer::index
+     * @covers Pub\Namespacify\Exception\NamespaceExistsException
+     */
+    public function testIndexThrowsException()
+    {
+        $indexer = new Indexer();
+        $indexer->setIndex(new Index());
+        $indexer->setFiles(array(
+            new SplFileInfo('Hello/Namespace.php', 'Hello', 'Hello/Namespace.php')
+        ));
+
+        try {
+            $index = $indexer->index('Hello');
+            $this->fail('->index() thrown an exception since the code contained namespaces.');
+        } catch (\Exception $e) {
+            $this->assertInstanceOf(
+                '\Pub\Namespacify\Exception\NamespaceExistsException',
+                $e,
+                '->index() thrown an exception since the code contained namespaces. [CorrectExceptionClass]');
+            $this->assertEquals(
+                'Found namespace "Hello\\Namespace" in file "Hello/Namespace.php"',
+                $e->getMessage(),
+                '->index() thrown an exception since the code contained namespaces. [CorrectExceptionMessage]'
+            );
+        }
     }
 
     /**
@@ -51,13 +84,16 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
 
 class Indexer extends BaseIndexer
 {
+    private $files;
+
+    public function setFiles(array $files)
+    {
+        $this->files = $files;
+    }
+
     protected function getFileIterator($directory)
     {
-        return new \ArrayIterator(array(
-            new SplFileInfo('Hello/World.php', 'Hello', 'Hello/World.php'),
-            new SplFileInfo('Hello/Moon.php', 'Hello', 'Hello/Moon.php'),
-            new SplFileInfo('Hello/Nothing.php', 'Hello', 'Hello/Nothing.php')
-        ));
+        return new \ArrayIterator($this->files);
     }
 }
 
@@ -74,6 +110,8 @@ class SplFileInfo extends BaseSplFileInfo
                 break;
             case 'Hello/Nothing.php':
                 return '';
+            case 'Hello/Namespace.php':
+                return "<?php\n\nnamespace Hello\\Namespace;\n\nclass Namespace {\n}\n";
         }
         return "<?php\n\nclass " . $class . " {\n}\n";
     }
