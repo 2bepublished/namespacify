@@ -55,6 +55,7 @@ class NamespacifyCommand extends Command implements ContainerAwareInterface
             ->setDescription('Adds namespaces to the classes in the given directory.')
             ->addArgument('dir', InputArgument::REQUIRED, 'Directory name')
             ->addArgument('outputDir', InputArgument::REQUIRED, 'Output directory name')
+            ->addOption('prefix', null, InputOption::VALUE_REQUIRED, 'Namespace prefix')
         ;
     }
 
@@ -75,10 +76,8 @@ class NamespacifyCommand extends Command implements ContainerAwareInterface
         $generator = $this->container->get('generator');
         $generator->setLoggingCallback(function ($namespace, $class, $file) use ($output)
         {
-            $output->writeln(sprintf('%s\\%s --> %s', $namespace, $class, $file ));
+            $output->writeln(sprintf('%s\\%s --> %s', $namespace, $class, $file));
         });
-        $generator->generate($parsedIndex, $outputDir);
-
-        $output->writeln("Directory: " . $dir);
+        $generator->generate($parsedIndex, $outputDir, $input->getOption('prefix'));
     }
 }
