@@ -30,11 +30,12 @@ interface GeneratorInterface
     /**
      * Generates the class files for the the index in the given directory.
      *
-     * @param \Pub\Namespacify\Index\ParsedIndex $index           The parsed index
-     * @param string                             $directory       The directory
-     * @param string                             $namespacePrefix The namespace prefix; defaults to NULL
+     * @param \Pub\Namespacify\Index\ParsedIndex $index               The parsed index
+     * @param string                             $directory           The directory
+     * @param string                             $namespacePrefix     The namespace prefix; defaults to NULL
+     * @param string                             $transformerCallback The file which contains the transformer.
      *
      * @return \Pub\Namespacify\Generator\GeneratorInterface
      */
-    public function generate(ParsedIndex $index, $directory, $namespacePrefix = null);
+    public function generate(ParsedIndex $index, $directory, $namespacePrefix = null, $transformerCallback = null);
 }
