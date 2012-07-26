@@ -59,6 +59,7 @@ class NamespacifyCommand extends Command implements ContainerAwareInterface
             ->addArgument('outputDir', InputArgument::REQUIRED, 'Output directory name')
             ->addOption('prefix', null, InputOption::VALUE_REQUIRED, 'Namespace prefix')
             ->addOption('exclude', null, InputOption::VALUE_REQUIRED, 'Exclude files that match the RegEx')
+            ->addOption('transformer', null, InputOption::VALUE_REQUIRED, 'Project specific code transformer')
         ;
     }
 
@@ -83,6 +84,6 @@ class NamespacifyCommand extends Command implements ContainerAwareInterface
         {
             $output->writeln(sprintf('%s\\%s --> %s', $namespace, $class, $file));
         });
-        $generator->generate($parsedIndex, $outputDir, $input->getOption('prefix'));
+        $generator->generate($parsedIndex, $outputDir, $input->getOption('prefix'), $input->getOption('transformer'));
     }
 }

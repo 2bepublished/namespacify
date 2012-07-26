@@ -140,7 +140,7 @@ class Psr0Generator implements GeneratorInterface
     }
 
     /** {@inheritDoc} */
-    public function generate(ParsedIndex $index, $outputDir, $namespacePrefix = null)
+    public function generate(ParsedIndex $index, $outputDir, $namespacePrefix = null, $transformerCallback = null)
     {
         // Remove trailing slash
         $outputDir = preg_replace('/\/$/', '', $outputDir);
@@ -161,6 +161,15 @@ class Psr0Generator implements GeneratorInterface
             // Apply the transformer
             if ($this->transformer) {
                 $class = $this->transformer->transform($class);
+            }
+
+            // Apply the project specific code transformer
+            if ($transformerCallback) {
+                $callbackWrapper = function () use ($transformerCallback, $class) {
+                    require_once $transformerCallback;
+                    return call_user_func(array('\\CodeTransformerCallback', 'transform'), $class);
+                };
+                $class = call_user_func($callbackWrapper);
             }
 
             // Generate the directory (if required)
