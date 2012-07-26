@@ -46,19 +46,19 @@ class Psr0GeneratorTest extends \PHPUnit_Framework_TestCase
         $that = $this;
         $generator->setWriter(function ($file, $code) use ($that) {
             if ('World.php' === substr($file, -9)) {
-                $that->assertEquals('./generated/Hello/World/World.php', $file);
-                $that->assertEquals("<?php\n\nnamespace Hello\\World;\n\nclass World \n{\n}\n", $code);
+                $that->assertEquals('./generated/Test/Hello/World/World.php', $file);
+                $that->assertEquals("<?php\n\nnamespace Test\\Hello\\World;\n\nclass World \n{\n}\n", $code);
             } elseif ('Moon.php' === substr($file, -8)) {
-                $that->assertEquals('./generated/Hello/Moon/Moon.php', $file);
+                $that->assertEquals('./generated/Test/Hello/Moon/Moon.php', $file);
                 $that->assertEquals(
-                    "<?php\n\nnamespace Hello\\Moon;\n\nuse Hello\\World\\World;\n\n" .
+                    "<?php\n\nnamespace Test\\Hello\\Moon;\n\nuse Test\\Hello\\World\\World;\n\n" .
                         "class Moon \n{function a(){new World();}\n}\n",
                     $code
                 );
             } elseif ('Mars.php' === substr($file, -8)) {
-                $that->assertEquals('./generated/Hello/Moon/Mars.php', $file);
+                $that->assertEquals('./generated/Test/Hello/Moon/Mars.php', $file);
                 $that->assertEquals(
-                    "<?php\n\nnamespace Hello\\Moon;\n\nuse \\Exception;\n\n" .
+                    "<?php\n\nnamespace Test\\Hello\\Moon;\n\nuse \\Exception;\n\n" .
                         "class Mars \n{function a(){throw new Exception();}\n}\n",
                     $code
                 );
@@ -67,7 +67,7 @@ class Psr0GeneratorTest extends \PHPUnit_Framework_TestCase
         $generator->setLoggingCallback(function ($namespace, $class, $file) use ($that) {
             $that->loggerCalled = true;
         });
-        $generator->generate($index, './generated');
+        $generator->generate($index, './generated', 'Test');
 
         if (!$this->loggerCalled) {
             $this->fail('->generate() calls logging callback.');

@@ -40,6 +40,9 @@ class Psr0Generator implements GeneratorInterface
     /** @var \Closure */
     protected $writer;
 
+    /** @var string RegEx pattern to find class usages (new and with static :: operator) */
+    private $classUsagePattern = '/(new (([a-zA-Z0-9-]+)\()|([a-zA-Z0-9_]+)::)/';
+
     /**
      * Sets the file system.
      *
@@ -122,14 +125,19 @@ class Psr0Generator implements GeneratorInterface
     }
 
     /** {@inheritDoc} */
-    public function generate(ParsedIndex $index, $outputDir)
+    public function generate(ParsedIndex $index, $outputDir, $namespacePrefix = null)
     {
         // Remove trailing slash
         $outputDir = preg_replace('/\/$/', '', $outputDir);
 
         foreach ($index->getAll() as $class) {
+            // Add namespace prefix to namespace
+            if ($namespacePrefix) {
+                $class = $this->addNamespacePrefix($class, $namespacePrefix);
+            }
+
             // Search which classes are used in this class and "use" statements for these classes
-            $useStatements = $this->generateUseStatements($index, $class['code']);
+            $useStatements = $this->generateUseStatements($index, $class['code'], $namespacePrefix);
 
             // Generate the code for the file
             $codeTemplate = "<?php\n\nnamespace %s;\n%s\n%s\n";
@@ -158,23 +166,33 @@ class Psr0Generator implements GeneratorInterface
     /**
      * Generates the required "use" statements based on the given code and index.
      *
-     * @param \Pub\Namespacify\Index\ParsedIndex $index The parsed index
-     * @param string                             $code  The code
+     * @param \Pub\Namespacify\Index\ParsedIndex $index           The parsed index
+     * @param string                             $code            The code
+     * @param string                             $namespacePrefix The namespace prefix; defaults to NULL
      *
      * @return string The "use" statements
      */
-    protected function generateUseStatements(ParsedIndex $index, $code)
+    protected function generateUseStatements(ParsedIndex $index, $code, $namespacePrefix = null)
     {
         $useStatementTemplate = "use %s\\%s;\n";
 
         $useStatements = '';
-        if (preg_match_all('/(new (([a-zA-Z0-9-]+)\()|([a-zA-Z0-9_]+)::)/', $code, $matches)) {
+        // Match alles uses of classes in the code
+        if (preg_match_all($this->classUsagePattern, $code, $matches)) {
+            // Merge uses of new and :: and remove duplicates
             $matches = array_unique(array_merge($matches[3], $matches[4]));
             foreach ($matches as $match) {
                 $match = trim($match);
+                // Don't bother with empty class names (probably extracted from PHPDoc) and parent and self uses
                 if (strlen($match) > 0 && 'parent' !== $match && 'self' !== $match) {
+                    // If the class name is in the index, use the class and optionally add the namespace prefix.
+                    // If the class is not in the index, this is probably a Standard PHP class from the
+                    // "" (empty) namespace. To make it work, we add a use statement with "\ClassName"
                     if ($index->has($match)) {
                         $class = $index->get($match);
+                        if ($namespacePrefix) {
+                            $class = $this->addNamespacePrefix($class, $namespacePrefix);
+                        }
                     } else {
                         $class = array(
                             'namespace' => '',
@@ -185,12 +203,22 @@ class Psr0Generator implements GeneratorInterface
                 }
             }
         }
-        /*foreach ($index->getAll() as $class) {
-            $classOccurencePattern = sprintf('/(new %s|%s::)/', $class['class'], $class['class']);
-            if (preg_match($classOccurencePattern, $code)) {
-                $useStatements .= sprintf($useStatementTemplate, $class['namespace'], $class['class']);
-            }
-        }*/
+
         return strlen($useStatements) > 0 ? "\n" . $useStatements : "";
+    }
+
+    /**
+     * Adds the namespace prefix to the class array.
+     *
+     * @param array  $class           The class array
+     * @param string $namespacePrefix The namespace prefix
+     *
+     * @return array The class array with prefixed namespace
+     */
+    protected function addNamespacePrefix($class, $namespacePrefix)
+    {
+        $class['namespace'] = $namespacePrefix .
+                    (strlen($class['namespace']) ? '\\' . $class['namespace'] : '');
+        return $class;
     }
 }
