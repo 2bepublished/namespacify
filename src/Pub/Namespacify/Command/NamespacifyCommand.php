@@ -51,7 +51,7 @@ class NamespacifyCommand extends Command implements ContainerAwareInterface
     protected function configure()
     {
         $this
-            ->setName('namespacify')
+            ->setName('go')
             ->setDescription('Adds namespaces to the classes in the given directory.')
             ->addArgument('dir', InputArgument::REQUIRED, 'Directory name')
             ->addArgument('outputDir', InputArgument::REQUIRED, 'Output directory name')
