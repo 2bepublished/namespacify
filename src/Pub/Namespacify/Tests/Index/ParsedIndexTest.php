@@ -1,9 +1,28 @@
 <?php
 
+/**
+ * ParsedIndexTest
+ *
+ * @category  test
+ * @package   namespacify
+ * @author    Florian Eckerstorfer <florian@theroadtojoy.at>
+ * @license   http://opensource.org/licenses/MIT The MIT License
+ * @copyright 2012 2bePUBLISHED Internet Services Austria GmbH
+ */
+
 namespace Pub\Namespacify\Tests\Index;
 
 use Pub\Namespacify\Index\ParsedIndex;
 
+/**
+ * ParsedIndexTest
+ *
+ * @category  test
+ * @package   namespacify
+ * @author    Florian Eckerstorfer <florian@theroadtojoy.at>
+ * @license   http://opensource.org/licenses/MIT The MIT License
+ * @copyright 2012 2bePUBLISHED Internet Services Austria GmbH
+ */
 class ParsedIndexTest extends \PHPUnit_Framework_TestCase
 {
     /**

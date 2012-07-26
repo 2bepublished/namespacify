@@ -8,6 +8,7 @@
  * @author    Florian Eckerstorfer <florian@theroadtojoy.at>
  * @license   http://opensource.org/licenses/MIT The MIT License
  * @copyright 2012 2bePUBLISHED Internet Services Austria GmbH
+ * @link      http://www.2bepublished.at 2bePUBLISHED
  */
 
 namespace Pub\Namespacify\Index;
@@ -20,6 +21,7 @@ namespace Pub\Namespacify\Index;
  * @author    Florian Eckerstorfer <florian@theroadtojoy.at>
  * @license   http://opensource.org/licenses/MIT The MIT License
  * @copyright 2012 2bePUBLISHED Internet Services Austria GmbH
+ * @link      http://www.2bepublished.at 2bePUBLISHED
  */
 class Index implements IndexInterface
 {

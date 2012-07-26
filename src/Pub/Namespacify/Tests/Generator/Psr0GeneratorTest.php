@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Psr0GeneratorTest
+ *
+ * @category  test
+ * @package   namespacify
+ * @author    Florian Eckerstorfer <florian@theroadtojoy.at>
+ * @license   http://opensource.org/licenses/MIT The MIT License
+ * @copyright 2012 2bePUBLISHED Internet Services Austria GmbH
+ */
+
 namespace Pub\Namespacify\Tests\Generator;
 
 use Symfony\Component\Filesystem\Filesystem as BaseFilesystem;
@@ -8,6 +18,15 @@ use Pub\Namespacify\Generator\Psr0Generator;
 use Pub\Namespacify\Index\ParsedIndex;
 use Pub\Namespacify\Transformer\TransformerChain;
 
+/**
+ * Psr0GeneratorTest
+ *
+ * @category  test
+ * @package   namespacify
+ * @author    Florian Eckerstorfer <florian@theroadtojoy.at>
+ * @license   http://opensource.org/licenses/MIT The MIT License
+ * @copyright 2012 2bePUBLISHED Internet Services Austria GmbH
+ */
 class Psr0GeneratorTest extends \PHPUnit_Framework_TestCase
 {
     public $loggerCalled;

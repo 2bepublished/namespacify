@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * IndexerTest
+ *
+ * @category  test
+ * @package   namespacify
+ * @author    Florian Eckerstorfer <florian@theroadtojoy.at>
+ * @license   http://opensource.org/licenses/MIT The MIT License
+ * @copyright 2012 2bePUBLISHED Internet Services Austria GmbH
+ * @link      http://www.2bepublished.at 2bePUBLISHED
+ */
+
 namespace Pub\Namespacify\Tests\Indexer;
 
 use Pub\Namespacify\Indexer\Indexer as BaseIndexer;
@@ -7,6 +18,16 @@ use Pub\Namespacify\Index\Index;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo as BaseSplFileInfo;
 
+/**
+ * IndexerTest
+ *
+ * @category  test
+ * @package   namespacify
+ * @author    Florian Eckerstorfer <florian@theroadtojoy.at>
+ * @license   http://opensource.org/licenses/MIT The MIT License
+ * @copyright 2012 2bePUBLISHED Internet Services Austria GmbH
+ * @link      http://www.2bepublished.at 2bePUBLISHED
+ */
 class IndexerTest extends \PHPUnit_Framework_TestCase
 {
     /**

@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * SimpleParserTest
+ *
+ * @category  test
+ * @package   namespacify
+ * @author    Florian Eckerstorfer <florian@theroadtojoy.at>
+ * @license   http://opensource.org/licenses/MIT The MIT License
+ * @copyright 2012 2bePUBLISHED Internet Services Austria GmbH
+ * @link      http://www.2bepublished.at 2bePUBLISHED
+ */
+
 namespace Pub\Namespacify\Tests\Parser;
 
 use Symfony\Component\Finder\SplFileInfo as BaseSplFileInfo;
@@ -7,6 +18,16 @@ use Symfony\Component\Finder\SplFileInfo as BaseSplFileInfo;
 use Pub\Namespacify\Index\Index;
 use Pub\Namespacify\Parser\SimpleParser;
 
+/**
+ * SimpleParserTest
+ *
+ * @category  test
+ * @package   namespacify
+ * @author    Florian Eckerstorfer <florian@theroadtojoy.at>
+ * @license   http://opensource.org/licenses/MIT The MIT License
+ * @copyright 2012 2bePUBLISHED Internet Services Austria GmbH
+ * @link      http://www.2bepublished.at 2bePUBLISHED
+ */
 class SimpleParserTest extends \PHPUnit_Framework_TestCase
 {
     /**
