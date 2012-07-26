@@ -19,7 +19,7 @@ Installation
 
 ### Without Git
 
-    $ wget -q https://github.com/2bepublished/namespacify/tarball/master; tar -xzf master; mv `ls | grep 2bepublished-namespacify` ~/inj
+    $ wget -q https://github.com/2bepublished/namespacify/tarball/master; tar -xzf master; mv `ls | grep 2bepublished-namespacify` ~/namespacify
     $ ln -s ~/namespacify/namespacify /usr/local/bin/namespacify
 
 Usage
