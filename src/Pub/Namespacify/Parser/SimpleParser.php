@@ -29,7 +29,7 @@ use Pub\Namespacify\Index\ParsedIndex;
 class SimpleParser implements ParserInterface
 {
     /** @var string Pattern to match the code of a single class */
-    protected $classCodePattern = '/^(class (.*)$(.*)^})/msU';
+    protected $classCodePattern = '/^((abstract\s)?class (.*)$(.*)^})/msU';
 
     /** @var string Pattern to match name of class */
     protected $classNamePattern = '/class (.*)(\s|\{)/sU';
