@@ -43,7 +43,20 @@ class Psr0Generator implements GeneratorInterface
     protected $writer;
 
     /** @var string RegEx pattern to find class usages (new and with static :: operator) */
-    private $classUsagePattern = '/(new (([a-zA-Z0-9-]+)\()|([a-zA-Z0-9_]+)::)|(extends\s+([a-zA-Z0-9_]+))|(\(([a-zA-Z0-9_]+)\s\$[a-zA-Z0-9_]+)/';
+    private $classUsagePattern;
+
+    public function __construct()
+    {
+        $this->classUsagePattern =
+            '/' .
+            '(new (([a-zA-Z0-9-]+))|' .
+            '([a-zA-Z0-9_]+)::)|' .
+            '(extends\s+([a-zA-Z0-9_]+))|' .
+            '(\(\s*([a-zA-Z0-9_]+)\s\$[a-zA-Z0-9_]+)|' .
+            '(,\s*([a-zA-Z0-9_]+)\s\$)' .
+            '/'
+        ;
+    }
 
     /**
      * Sets the file system.
@@ -182,7 +195,13 @@ class Psr0Generator implements GeneratorInterface
         // Match alles uses of classes in the code
         if (preg_match_all($this->classUsagePattern, $code, $matches)) {
             // Merge uses of new and :: and remove duplicates
-            $matches = array_unique(array_merge($matches[3], $matches[4], $matches[6], $matches[8]));
+            $matches = array_unique(array_merge(
+                $matches[3], // new UsedClass
+                $matches[4], // UsedClass::
+                $matches[6], // extends UsedClass
+                $matches[8], // function method(UsedClass $var)
+                $matches[10] // function method($var, UsedClass $var)
+            ));
             foreach ($matches as $match) {
                 $match = trim($match);
                 // Regular expressions also matches array types defined in parameter definition of a method

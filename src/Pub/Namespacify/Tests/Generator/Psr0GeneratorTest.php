@@ -51,7 +51,7 @@ class Psr0GeneratorTest extends \PHPUnit_Framework_TestCase
         $index->add(array(
             'class' => 'Moon',
             'namespace' => 'Hello\\Moon',
-            'code' => "class Moon \n{function a(array \$a){new World();}\n}"
+            'code' => "class Moon \n{function a(array \$a, Venus \$v){new World();}\n}"
         ));
         $index->add(array(
             'class'     => 'Mars',
@@ -75,8 +75,9 @@ class Psr0GeneratorTest extends \PHPUnit_Framework_TestCase
             } elseif ('Moon.php' === substr($file, -8)) {
                 $that->assertEquals('./generated/Test/Hello/Moon/Moon.php', $file);
                 $that->assertEquals(
-                    "<?php\n\nnamespace Test\\Hello\\Moon;\n\nuse Test\\Hello\\World\\World;\n\n" .
-                        "class Moon \n{function a(array \$a){new World();}\n}\n",
+                    "<?php\n\nnamespace Test\\Hello\\Moon;\n\nuse Test\\Hello\\World\\World;\n" .
+                        "use Test\\Hello\\Venus\\Venus;\n\n" .
+                        "class Moon \n{function a(array \$a, Venus \$v){new World();}\n}\n",
                     $code
                 );
             } elseif ('Mars.php' === substr($file, -8)) {
