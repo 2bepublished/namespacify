@@ -1,0 +1,35 @@
+parameters:
+    finder.class:       Symfony\Component\Finder\Finder
+    filesystem.class:   Symfony\Component\Filesystem\Filesystem
+    index.class:        Pub\Namespacify\Index\Index
+    indexer.class:      Pub\Namespacify\Indexer\Indexer
+    parser.class:       Pub\Namespacify\Parser\SimpleParser
+    generator.class:    Pub\Namespacify\Generator\Psr0Generator
+    transformer.chain.class:  Pub\Namespacify\Transformer\TransformerChain
+    transformer.camelcase.class: Pub\Namespacify\Transformer\CamelCaseTransformer
+
+services:
+    finder:
+        class:      %finder.class%
+    filesystem:
+        class:      %filesystem.class%
+    transformer.camelcase:
+        class:      %transformer.camelcase.class%
+    index:
+        class:      %index.class%
+    indexer:
+        class:      %indexer.class%
+        calls:
+            - [ setIndex, [ @index ] ]
+            - [ setFinder, [ @finder ] ]
+    parser:
+        class:      %parser.class%
+    generator.transformer:
+        class:      %transformer.chain.class%
+        calls:
+            - [ addTransformer, [ @transformer.camelcase ] ]
+    generator:
+        class:      %generator.class%
+        calls:
+            - [ setFilesystem, [ @filesystem ] ]
+            - [ setTransformer, [ @generator.transformer ] ]
