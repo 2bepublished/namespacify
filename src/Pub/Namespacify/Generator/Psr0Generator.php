@@ -185,6 +185,11 @@ class Psr0Generator implements GeneratorInterface
             $matches = array_unique(array_merge($matches[3], $matches[4], $matches[6], $matches[8]));
             foreach ($matches as $match) {
                 $match = trim($match);
+                // Regular expressions also matches array types defined in parameter definition of a method
+                // Skip them!
+                if ('array' === $match) {
+                    continue;
+                }
                 // Don't bother with empty class names (probably extracted from PHPDoc) and parent and self uses
                 if (strlen($match) > 0 && 'parent' !== $match && 'self' !== $match) {
                     // If the class name is in the index, use the class and optionally add the namespace prefix.
