@@ -58,6 +58,7 @@ class NamespacifyCommand extends Command implements ContainerAwareInterface
             ->addArgument('dir', InputArgument::REQUIRED, 'Directory name')
             ->addArgument('outputDir', InputArgument::REQUIRED, 'Output directory name')
             ->addOption('prefix', null, InputOption::VALUE_REQUIRED, 'Namespace prefix')
+            ->addOption('exclude', null, InputOption::VALUE_REQUIRED, 'Exclude files that match the RegEx')
         ;
     }
 
@@ -70,7 +71,9 @@ class NamespacifyCommand extends Command implements ContainerAwareInterface
         $outputDir = $input->getArgument('outputDir');
 
         $indexer = $this->container->get('indexer');
-        $index = $indexer->index($dir);
+        $index = $indexer->index($dir, $input->getOption('exclude'));
+
+        $output->writeln(sprintf("Indexed %d files.", count($index->getAll())));
 
         $parser = $this->container->get('parser');
         $parsedIndex = $parser->parse($index);

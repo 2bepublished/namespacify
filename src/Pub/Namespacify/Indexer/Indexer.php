@@ -14,6 +14,7 @@
 namespace Pub\Namespacify\Indexer;
 
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 use Pub\Namespacify\Exception\NamespaceExistsException;
 use Pub\Namespacify\Index\IndexInterface;
@@ -89,9 +90,9 @@ class Indexer implements IndexerInterface
     }
 
     /** {@inheritdoc} */
-    public function index($directory)
+    public function index($directory, $exclude = null)
     {
-        $iterator = $this->getFileIterator($directory);
+        $iterator = $this->getFileIterator($directory, $exclude);
         foreach ($iterator as $file) {
             $content = $file->getContents();
             if (preg_match($this->namespaceMatchPattern, $content, $matches)) {
@@ -120,12 +121,22 @@ class Indexer implements IndexerInterface
      *
      * @codeCoverageIgnore
      */
-    protected function getFileIterator($directory)
+    protected function getFileIterator($directory, $exclude = null)
     {
-        return $this->finder
+        $finder = $this->finder
             ->files()
             ->name('*.php')
-            ->depth('> 0')
+            ->depth('>= 0');
+        if ($exclude) {
+            $finder->filter(function (SplFileInfo $file) use ($exclude) {
+                if (preg_match('/'.$exclude.'/', $file->getRelativePathName())) {
+                    return false;
+                } else {
+                    return true;
+                }
+            });
+        }
+        return $finder
             ->in($directory)
         ;
     }
