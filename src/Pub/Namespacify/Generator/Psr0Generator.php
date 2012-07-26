@@ -43,7 +43,7 @@ class Psr0Generator implements GeneratorInterface
     protected $writer;
 
     /** @var string RegEx pattern to find class usages (new and with static :: operator) */
-    private $classUsagePattern = '/(new (([a-zA-Z0-9-]+)\()|([a-zA-Z0-9_]+)::)/';
+    private $classUsagePattern = '/(new (([a-zA-Z0-9-]+)\()|([a-zA-Z0-9_]+)::)|(extends\s+([a-zA-Z0-9_]+))/';
 
     /**
      * Sets the file system.
@@ -182,7 +182,7 @@ class Psr0Generator implements GeneratorInterface
         // Match alles uses of classes in the code
         if (preg_match_all($this->classUsagePattern, $code, $matches)) {
             // Merge uses of new and :: and remove duplicates
-            $matches = array_unique(array_merge($matches[3], $matches[4]));
+            $matches = array_unique(array_merge($matches[3], $matches[4], $matches[6]));
             foreach ($matches as $match) {
                 $match = trim($match);
                 // Don't bother with empty class names (probably extracted from PHPDoc) and parent and self uses

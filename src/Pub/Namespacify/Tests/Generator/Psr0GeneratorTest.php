@@ -58,6 +58,11 @@ class Psr0GeneratorTest extends \PHPUnit_Framework_TestCase
             'namespace' => 'Hello\\Moon',
             'code'      => "class Mars \n{function a(){throw new Exception();}\n}"
         ));
+        $index->add(array(
+            'class'     => 'Venus',
+            'namespace' => 'Hello\\Venus',
+            'code'      => "class Venus extends Mars \n{\n}"
+        ));
         $generator = new Psr0Generator();
         $generator->setFilesystem(new Filesystem());
         $generator->setTransformer(new TransformerChain());
@@ -81,6 +86,12 @@ class Psr0GeneratorTest extends \PHPUnit_Framework_TestCase
                         "class Mars \n{function a(){throw new Exception();}\n}\n",
                     $code
                 );
+            } elseif ('Venus.php' === substr($file, -9)) {
+                $that->assertEquals('./generated/Test/Hello/Venus/Venus.php', $file);
+                $that->assertEquals(
+                    "<?php\n\nnamespace Test\\Hello\\Venus;\n\nuse Test\\Hello\\Moon\\Mars;\n\n" .
+                        "class Venus extends Mars \n{\n}\n",
+                    $code);
             }
         });
         $generator->setLoggingCallback(function ($namespace, $class, $file) use ($that) {
