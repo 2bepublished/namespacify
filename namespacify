@@ -39,7 +39,6 @@ if (file_exists($file)) {
     $container = new NamespacifyContainerCache();
 } else {
     $container = new ContainerBuilder();
-    // $container->addCompilerPass(new CompilerPass, PassConfig::TYPE_AFTER_REMOVING);
 
     $loader = new YamlFileLoader($container, new FileLocator(NAMESPACIFY_ROOT_DIR));
     $loader->load(NAMESPACIFY_ROOT_DIR.'/config/services.yml');
