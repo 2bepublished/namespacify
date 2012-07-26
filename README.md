@@ -25,7 +25,9 @@ Installation
 Usage
 -----
 
-    $ php bin/console namespacify ~/input-dir ~/output-dir
+To add namespaces to all classes in a directory and save them to another directory, you just have to:
+
+    $ namespacify go ~/input-dir ~/output-dir
 
 LICENSE
 -------
