@@ -7,7 +7,7 @@ Namespacfiy
 About
 -----
 
-Namespacify is a tool automatically add namespaces to PHP classes.
+Namespacify is a tool to automatically add namespaces to PHP classes.
 
 Installation
 ------------
