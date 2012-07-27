@@ -12,14 +12,18 @@ Namespacify is a tool to automatically add namespaces to PHP classes.
 Installation
 ------------
 
+Namespacify can be installed with or without Git. However, in each case [Composer](http://getcomposer.org) is required to install the dependencies.
+
 ### With Git
 
     $ git clone https://github.com/2bepublished/namespacify.git ~/namespacify
+    $ cd ~/namespacify; curl -s http://getcomposer.org/installer | php; php composer.phar install
     $ ln -s ~/namespacify/namespacify /usr/local/bin/namespacify
 
 ### Without Git
 
     $ wget -q https://github.com/2bepublished/namespacify/tarball/master; tar -xzf master; mv `ls | grep 2bepublished-namespacify` ~/namespacify
+    $ cd ~/namespacify; curl -s http://getcomposer.org/installer | php; php composer.phar install
     $ ln -s ~/namespacify/namespacify /usr/local/bin/namespacify
 
 Usage
@@ -93,10 +97,25 @@ Namespacify is currently not able to find dynamic uses of classes. If the classe
     $name = 'MyClass';
     $obj = new $name();
 
-However, it is possible to manually transform these lines of code using the `transform` method. The code could, for example, look like this:
+However, it is possible to manually transform these lines of code using the `transform` option. The code could, for example, look like this:
 
     <?php
     $code = str_replace('$name = \'MyClass\';', ''$name = \'\\\\MyVendor\\\\MyClass\';'', $code);
+
+
+Dependencies
+------------
+
+Namespacify has the following dependencies:
+
+- [Symfony Console](https://github.com/symfony/console)
+- [Symfony Finder](https://github.com/symfony/finder)
+- [Symfony DependencyInjection](https://github.com/symfony/dependencyInjection)
+- [Symfony Config](https://github.com/symfony/config)
+- [Symfony Yaml](https://github.com/symfony/yaml)
+- [Symfony Filesystem](https://github.com/symfony/filesystem)
+
+All dependencies can be installed using [Composer](http://getcomposer.org/).
 
 LICENSE
 -------
