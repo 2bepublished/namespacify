@@ -146,6 +146,9 @@ class Psr0Generator implements GeneratorInterface
         $outputDir = preg_replace('/\/$/', '', $outputDir);
 
         foreach ($index->getAll() as $class) {
+            if (!isset($class['code']) || !isset($class['namespace']) || !isset($class['class'])) {
+                throw new \RuntimeException('Ups. It seems that indexing did not work correctly.');
+            }
             // Add namespace prefix to namespace
             if ($namespacePrefix) {
                 $class = $this->addNamespacePrefix($class, $namespacePrefix);
@@ -166,6 +169,9 @@ class Psr0Generator implements GeneratorInterface
             // Apply the project specific code transformer
             if ($transformerCallback) {
                 $callbackWrapper = function () use ($transformerCallback, $class, $index) {
+                    if (!file_exists($transformerCallback)) {
+                        throw new \RuntimeException(sprintf('Transformer callback file "%s" does not exist.', $transformerCallback));
+                    }
                     require_once $transformerCallback;
                     return call_user_func(array('\\CodeTransformerCallback', 'transform'), $class, $index->getAll());
                 };
