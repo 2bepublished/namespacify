@@ -165,9 +165,9 @@ class Psr0Generator implements GeneratorInterface
 
             // Apply the project specific code transformer
             if ($transformerCallback) {
-                $callbackWrapper = function () use ($transformerCallback, $class) {
+                $callbackWrapper = function () use ($transformerCallback, $class, $index) {
                     require_once $transformerCallback;
-                    return call_user_func(array('\\CodeTransformerCallback', 'transform'), $class);
+                    return call_user_func(array('\\CodeTransformerCallback', 'transform'), $class, $index->getAll());
                 };
                 $class = call_user_func($callbackWrapper);
             }
