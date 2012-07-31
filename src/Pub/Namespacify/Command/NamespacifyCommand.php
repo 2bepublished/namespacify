@@ -79,11 +79,19 @@ class NamespacifyCommand extends Command implements ContainerAwareInterface
         $parser = $this->container->get('parser');
         $parsedIndex = $parser->parse($index);
 
+        $output->writeln(sprintf("Parsed %d classes.", count($parsedIndex->getAll())));
+
+        $generatorCount = 0;
         $generator = $this->container->get('generator');
-        $generator->setLoggingCallback(function ($namespace, $class, $file) use ($output)
+        $generator->setLoggingCallback(function ($namespace, $class, $file) use ($input, $output, &$generatorCount)
         {
-            $output->writeln(sprintf('%s\\%s --> %s', $namespace, $class, $file));
+            if ($input->getOption('verbose')) {
+                $output->writeln(sprintf('%s\\%s --> %s', $namespace, $class, $file));
+            }
+            $generatorCount++;
         });
         $generator->generate($parsedIndex, $outputDir, $input->getOption('prefix'), $input->getOption('transformer'));
+
+        $output->writeln(sprintf("Generated %d classes.", $generatorCount));
     }
 }
