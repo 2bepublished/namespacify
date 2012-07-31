@@ -164,7 +164,6 @@ class Psr0Generator implements GeneratorInterface
             // Apply the transformer
             if ($this->transformer) {
                 $class['namespace'] = $this->transformer->transform($class['namespace']);
-                $class['code']      = $this->transformer->transform($class['code']);
                 $class['class']     = $this->transformer->transform($class['class']);
             }
 
